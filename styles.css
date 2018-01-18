@@ -1,0 +1,38 @@
+.currentGrade{
+    text-align: center;
+    margin:auto;
+    font-size: 25px;
+}
+#calculate{
+    font-size: 25px;
+    margin-bottom: 44px;
+    background-color: wheat;
+    padding: 15px 30px;
+    border-radius: 10px;
+}
+#finalCalc{
+    font-size: 25px;
+    margin-bottom: 44px;
+    background-color: wheat;
+    padding: 15px 30px;
+    border-radius: 10px;
+}
+
+
+button:focus {outline:0 !important;}
+
+body{
+    background-color: mintcream;
+}
+#title{
+    font-size: 56px;
+}
+#weightedGrade{
+    text-align: center;
+    margin:auto;
+    font-size: 32px;
+}
+#finalHeader{
+    text-align: center;
+    margin:auto;
+}
