@@ -19,7 +19,6 @@
     border-radius: 10px;
 }
 
-
 button:focus {outline:0 !important;}
 
 body{
@@ -36,4 +35,7 @@ body{
 #finalHeader{
     text-align: center;
     margin:auto;
+}
+#table1{
+    background-color:lightblue;
 }

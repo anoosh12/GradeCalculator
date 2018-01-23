@@ -1,11 +1,6 @@
 
-
 function calculateCurrentGrade(){
-
-    //Weight
-    var weights = (hw + cw + tests + midterm + f)/ 100;
-
-    //error
+//error
     document.getElementById("error").innerHTML =  "";
     if(weights > 1){
         document.getElementById("error").innerHTML = "error(404),the weights need to add up to 100.";
@@ -13,75 +8,97 @@ function calculateCurrentGrade(){
     if(weights < 1){
         document.getElementById("error").innerHTML = "error(404), the weights need to add up to 100.";
     }
+    //Weights
+    var hwW = parseInt(document.getElementById("hwWeight").value);
+    var qW = parseInt(document.getElementById("qWeight").value);
+    var tW = parseInt(document.getElementById("tWeight").value);
+    var mW = parseInt(document.getElementById("mWeight").value);
+    var fW = parseInt(document.getElementById("fWeight").value);
+    var weights = (hwW + qW + tW + mW + fW)/ 100;
 
     //Homework
-    var hw = (document.getElementById("Homework").value);
-    var hwToArray = convertStringToArray(hw);
-    var hwArrayToNumber = convertArrayStringToNumber(hwToArray);
-    var averageHw = averageArray(hwArrayToNumber);
-    var hwGrade = avg(convertArrayStringToNumber(document.getElementById("homework").value));
+    var hwGrade = Math.round(average(convertArrayStringToNumber(document.getElementById("homework").value)));
     console.log(hwGrade);
-    document.getElementById("avgHw").innerHTML = "Your total homework grade is " +  hwGrade + "%";
-    colorGrade(document.getElementById("avgHw"), hwGrade);
-
-    //Classwork
-    var cw = (document.getElementById("Classwork Grade").value);
-    var cwToArray = convertStringToArray(cw);
-    var cwArrayToNumber = convertArrayStringToNumber(cwToArray);
-    var cwAverage = averageArray(cwArrayToNumber);
+    document.getElementById("averageHw").innerHTML = "Your total homework grade is " +  hwGrade + "%";
+    colorGrade(document.getElementById("averageHw"), hwGrade);
 
     //Quiz
-    var quizGrade = Math.round(avg(convertArrayStringToNumber(document.getElementById("quiz").value)));
+    var quizGrade = Math.round(average(convertArrayStringToNumber(document.getElementById("quiz").value)));
     console.log(quizGrade);
-    document.getElementById("avgQuiz").innerHTML = "Your total quiz grade is " + quizGrade + "%";
-    colorGrade(document.getElementById("avgQuiz"), quizGrade);
+    document.getElementById("averageQuiz").innerHTML = "Your total quiz grade is " + quizGrade + "%";
+    colorGrade(document.getElementById("averageQuiz"), quizGrade);
 
     //Tests
-    var tests = (document.getElementById("Test Grades").value);
-    var testsToArray = convertStringToArray(tests);
-    var testsArrayToNumber = convertArrayStringToNumber(testsToArray);
-    var testsAverage = averageArray(testsArrayToNumber);
-    var testGrade = Math.round(avg(convertArrayStringToNumber(document.getElementById("test").value)));
+   var testGrade = Math.round(average(convertArrayStringToNumber(document.getElementById("test").value)));
     console.log(testGrade);
-    document.getElementById("avgTest").innerHTML = "Your total test grade is " + testGrade + "%";
-    colorGrade(document.getElementById("avgTest"), testGrade);
+    document.getElementById("averageTest").innerHTML = "Your total test grade is " + testGrade + "%";
+    colorGrade(document.getElementById("averageTest"), testGrade);
 
     //Midterm
-    var midtermGrade = Math.round(avg(convertArrayStringToNumber(document.getElementById("midterm").value)));
+    var midtermGrade =  Math.round(average(convertArrayStringToNumber(document.getElementById("midterm").value)));
     console.log(midtermGrade);
-    document.getElementById("avgMidterm").innerHTML = "Your total midterm grade is " + midtermGrade + "%";
-    colorGrade(document.getElementById("avgMidterm"), midtermGrade);
+    document.getElementById("averageMidterm").innerHTML = "Your total midterm grade is " + midtermGrade + "%";
+    colorGrade(document.getElementById("averageMidterm"), midtermGrade);
 
     //Total
-    var hw = (hwGrade * hwWeight) / 100;
-    var quiz = (quizGrade * qWeight) / 100;
-    var test = (testGrade * tWeight) / 100;
-    var midterm = (midtermGrade * mWeight) / 100;
-    var currentGrade = Math.round(100 * ((hw + quiz + test + midterm) / (100 - fWeight)));
+    var hw = (hwGrade * hwW) / 100;
+    var quiz = (quizGrade * qW) / 100;
+    var test = (testGrade * tW) / 100;
+    var midterm = (midtermGrade * mW) / 100;
+    var currentGrade = 100 * ((hw + quiz + test + midterm) / (100 - fW));
     console.log(currentGrade);
     document.getElementById("totalGrade").innerHTML = "Your current grade is a " + currentGrade + "%";
     colorGrade(document.getElementById("totalGrade"), currentGrade);
-    calculateGradeNeeded(currentGrade);
-
+    Math.round(calculateGradeNeeded(currentGrade));
 }
 
-function convertStringToArray(str) {
-    var arr = str.split(",");
-    return arr;
-}
-
-function convertArrayStringToNumber(arr){
-    for(var i = 0; i < arr.length; i++){
-        arr[i] = parseInt(arr[i])
+function calculateGradeNeeded(grade){
+    var x = (1-((document.getElementById("fWeight").value)/100)) * (grade/100);
+    var y = ((document.getElementById("dGrade").value)/100) - x;
+    var finalGradeNeeded = Math.round((y / ((document.getElementById("fWeight").value)/100)) * 100);
+    console.log(finalGradeNeeded);
+    if(finalGradeNeeded >= 100){
+        return document.getElementById("finalGradeNeeded").innerHTML = "You need a "  +  finalGradeNeeded  +  "% on the final to get your desired grade.";
     }
-    return arr;
+    document.getElementById("finalGradeNeeded").innerHTML = "You need a "  +  finalGradeNeeded  +  "% on the final to get your desired grade.";
 }
 
-function averageArray(arr){
+function convertArrayStringToNumber(string){
+    var array = string.split(",");
+    for(var u = 0; u < array.length; u++){
+        if(isNaN(array[u]) === true){
+            return document.getElementById("error").innerHTML= "error, you have entered an invalid character.";
+        }
+    }
+    for(var i = 0; i < array.length; i++){
+        array[i] = parseInt(array[i]);
+    }
+    return array;
+}
+
+function average(arr){
     var sum = 0;
     for(var i = 0; i < arr.length; i++){
         sum += arr[i];
     }
-    avg = sum/arr.length;
-    return avg;
+
+    return sum/arr.length;
+}
+
+function colorGrade(x, grade) {
+    if (grade >= 90) {
+        x.style.background = "Green";
+    }
+    if (grade >= 80 && grade < 90) {
+        x.style.background = "GreenYellow";
+    }
+    if (grade >= 70 && grade < 80) {
+        x.style.background = "Yellow";
+    }
+    if (grade >= 60 && grade < 70) {
+        x.style.background = "Orange";
+    }
+    if(grade < 60) {
+        x.style.background = "Red"
+    }
 }
