@@ -1,4 +1,4 @@
-
+//
 function calculateCurrentGrade(){
 //error
     document.getElementById("error").innerHTML =  "";
